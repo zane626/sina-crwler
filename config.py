@@ -47,7 +47,7 @@ def get_header(lv=None) -> dict:
     if lv == 2:
         return {
             "User-Agent": random.choice(useragent),
-            "Cookie": ""
+            "Cookie": "PC_TOKEN=d16fbf496a; SUB=_2AkMVsT63f8NxqwFRmP8RymvgbYpxzAHEieKj7c9sJRMxHRl-yj8XqmIstRB6PjEQWE5flyeYOcXZD5l78pHhv0lWBD7Z; SUBP=0033WrSXqPxfM72-Ws9jqgMF55529P9D9WFgO_Lw35XIyizlRZNV-z2g"
         }
     else:
         return {"User-Agent": random.choice(useragent)}
@@ -64,3 +64,16 @@ def get_sub_reply_url(url):
     time_str = str(int(time.time() * 1000))
     return "https://weibo.com/aj/v6/comment/big?ajwvr=6" + url + (
             "&from=singleWeiBo&__rnd%s" % time_str) + "&display=0&retcode=6102"
+
+def get_hot_list_url() -> str:
+    params = {
+        "containerid": "106003type%3D25%26t%3D3%26disable_hot%3D1%26filter_type%3Drealtimehot",
+        "title": "%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C",
+        "extparam": "seat%3D1%26lcate%3D1001%26position%3D%257B%2522objectid%2522%253A%25228008631000000000000%2522%252C%2522name%2522%253A%2522%255Cu4e0a%255Cu6d77%255Cu5e02%2522%257D%26filter_type%3Drealtimehot%26pos%3D0_0%26c_type%3D30%26mi_cid%3D100103%26dgr%3D0%26recommend_tab%3D0%26cate%3D10103%26region_relas_conf%3D0%26display_time%3D1659943955%26pre_seqid%3D1639479645",
+        "luicode": "10000011",
+        "lfid": "231583"
+    }
+    par_str = []
+    for key in params:
+        par_str.append(key + '=' + params[key])
+    return "https://m.weibo.cn/api/container/getIndex?" + ('&'.join(par_str))

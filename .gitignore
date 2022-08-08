@@ -5,3 +5,5 @@ __pycache__
 account
 cookies
 cookies.txt
+./*.log
+account.py

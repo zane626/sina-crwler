@@ -20,13 +20,14 @@ class Reply:
         # 初始化数据库
         db_name = "weibo"
         # TODO: 数据库地址
-        host = "www.***.com"
+        host = "www.quandouyao.com"
         # TODO：数据库端口号
         port = 27017
-        client = pymongo.MongoClient(host=host, port=port)
-        db = client.admin
+        client = pymongo.MongoClient(host=host, port=port, username="root", password="zane2020")
+        # client = pymongo.MongoClient(host=host, port=port)
+        # db = client.admin
         # TODO: 数据库登录账号密码
-        db.authenticate("**", "****", mechanism="SCRAM-SHA-1")
+        # db.authenticate("root", "zane2020", mechanism="SCRAM-SHA-1")
         self.my_db = client[db_name]
         self.count = 0
         self.sub_count = 0
@@ -36,7 +37,7 @@ class Reply:
 
     def __req(self, url):
         try:
-            header = config.get_header(lv=1)
+            header = config.get_header(lv=2)
             res_pones = requests.get(url, headers=header, cookies={})
             if 200 == res_pones.status_code:
                 data = json.loads(str(res_pones.text))
@@ -54,7 +55,12 @@ class Reply:
 
     def __layer(self, layer):
         try:
-            html = pq(layer)
+            try:
+                pattern = re.compile(u'[\U00010000-\U0010ffff]')
+            except re.error:
+                pattern = re.compile(u'[\uD800-\uDBFF][\uDC00-\uDFFF]')
+            cont = pattern.sub('', layer)
+            html = pq(cont.strip())
             try:
                 next_url_params = pq(html('.list_ul>div')
                                      [-1:][0]).attr("action-data")
@@ -100,7 +106,7 @@ class Reply:
                     data['img_url'] = "https:" + \
                         pq(pq(item)('.WB_media_wrap img')[0]).attr("src")
                 self.count += 1
-                # print(self.count)
+                print(self.count, data)
                 self.__save_data(data)
             sleep(3)
             if "" != next_url_params:
