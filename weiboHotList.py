@@ -4,6 +4,7 @@ import json
 import pymongo
 from account import db_name, host, port, name, pwd
 import pydash as _
+import time
 
 
 class Hot:
@@ -40,7 +41,7 @@ class Hot:
 
     def __extract(self, data):
         for item in data:
-            item['created_at'] = self.now_time
+            item['created_at'] = self.now_time or int(time.time())
             self.my_db.hot_list.insert_one(item)
             pass
 
