@@ -30,13 +30,13 @@ class Hot:
                 elif self.retry < 5:
                     self.run()
                 else:
-                    self.log('not data ----->   ' + str(res_pones.text), self.now_time)
+                    self.log('not data ----->   ' + str(res_pones.text) + "    " + str(self.now_time))
             else:
                 print("request error", res_pones.status_code)
-                self.log("request error    " + str(res_pones.status_code) + "    " + self.now_time)
+                self.log("request error    " + str(res_pones.status_code) + "    " + str(self.now_time))
         except Exception as err:
             print("err1-->", err)
-            self.log("err1-->    " + str(err) + "    " + self.now_time)
+            self.log("err1-->    " + str(err) + "    " + str(self.now_time))
         pass
 
     def __extract(self, data):
