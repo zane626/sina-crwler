@@ -28,6 +28,7 @@ class Hot:
                 if len(group):
                     self.__extract(group)
                 elif self.retry < 5:
+                    self.retry += 1
                     self.run()
                 else:
                     self.log('not data ----->   ' + str(res_pones.text) + "    " + str(self.now_time))
